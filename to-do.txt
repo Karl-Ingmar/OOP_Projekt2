@@ -18,11 +18,11 @@ Tehtud:
 Algne kasutajaliides küsimustele vastamiseks. Sh skoori ja küsimuste lugemine
 Reageerimine klaviatuurisündmusele (vastuse sisestamine).
 Akna suuruse muutmisele reageerimine
-
-Teha:
 Tutvustav aken
 Kokkuvõtte aken
 Hiiresündmusele reageerimine (näieks vajutus nupule, mis viib kokkuvõtte aknasse)
 Erinditöötlus (nt äkki tühjale sisendile reageerimine?)
+
+Teha:
 Failist lugemine (küsimuseed, vastused)
 Faili kirjutamine (kokkuvõte, nt kahte veergu on paigutatud kasutaja vastus ja õige vastus kõrvuti)

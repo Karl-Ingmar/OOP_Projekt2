@@ -53,10 +53,12 @@ public abstract class Samaväärsused {
         return skoor;
     }
 
-    public String kontrolliVastus(String kontrollitav, String õige){
+    public String kontrolliVastus(String kontrollitav, String õige) throws NullSisestusErind {
         if(kontrollitav.equals(õige)){
             skoor++;
             return "Õige vastus!";
+        }else if(kontrollitav.equals("")){
+            throw new NullSisestusErind("Sisend jäi tühjaks");
         }else
             return "Vale vastus!";
     }
