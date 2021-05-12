@@ -16,10 +16,7 @@ import javafx.stage.Stage;
 import javafx.scene.text.Text;
 import javafx.stage.WindowEvent;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -284,6 +281,8 @@ public class Quiz extends Application {
         }
         return definitsioonid_vastused;
     }
+
+
 
 
 
