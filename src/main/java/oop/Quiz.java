@@ -16,6 +16,11 @@ import javafx.stage.Stage;
 import javafx.scene.text.Text;
 import javafx.stage.WindowEvent;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,13 +28,18 @@ import java.util.concurrent.TimeUnit;
 
 
 public class Quiz extends Application {
-    List<String> definitsioonid_küsimused = Arrays.asList("Maatriks, mille ridade ja veergude arv on võrdne, m=n", "Mis on determinandi väärtus kahe võrdse või võrdelise rea korral?",
+    /*List<String> definitsioonid_küsimused = Arrays.asList("Maatriks, mille ridade ja veergude arv on võrdne, m=n", "Mis on determinandi väärtus kahe võrdse või võrdelise rea korral?",
             "Maatriks mille peadiagonaali elemendid on kõik ühed ja kõrvaldiagonaali elemendid 0-d nimetatakse?","Ruutmaatriks, mille determinant võrdub 0-ga nimetatakse?",
             "Maatriksil eksisteerib pöördmaatriks parajasti siis, kui maatriks on ?", "nullmaatriksi astak on?", "Süsteem, millel lahend puudub nimetatakse",
             "Paarisfunktsiooni graafik on sümmetriline mis telje suhtes?", "limx->0 sinx/x=",
             "limx->inf(1+1/x)**x=", "Konstandi tuletis on alati", "(u/v)'=");
+            */
     List<String>  definitsioonid_vastused = Arrays.asList("ruutmaatriks","0","ühikmaatriksiks", "singulaarseks", "regulaarne",
             "0", "vastuoluliseks", "y", "1", "e", "0", "(u'v-uv')/v**2");
+
+    List<String> definitsioonid_küsimused = getDefinitsioonid_küsimused();
+
+
 
 
     List<String> küsimused = new LinkedList<String>();
@@ -66,6 +76,10 @@ public class Quiz extends Application {
 
 
     Samaväärsused samaväärsused =  new DEF(küsimused, vastused, 0);
+
+    public Quiz() throws IOException {
+    }
+
     @Override
     public void start(Stage pealava) {
 
@@ -164,7 +178,7 @@ public class Quiz extends Application {
 
 
             int pikkus = vastused.size();
-            int indeks = samaväärsused.suvalineKüsimus(pikkus);
+            int indeks = samaväärsused.suvalineKüsimus(pikkus-1);
             String küsimus = küsimused.remove(indeks); //väärtustame küsimuse ja vastuse ning koheselt eemaldame listist
             String vastus = vastused.remove(indeks);
             silt.setText(küsimus);
@@ -247,7 +261,17 @@ public class Quiz extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
+    public  static ArrayList<String> getDefinitsioonid_küsimused() throws IOException {
+        ArrayList<String> definitsioonid_küsimused = new ArrayList<>();
+        try(BufferedReader in = new BufferedReader(new FileReader("C:\\Users\\karli\\IdeaProjects\\OOP\\Projekt1\\src\\must-ruut-develop\\src\\küsimused.txt"))){
+            String line;
+            while((line = in.readLine())!=null){
+                String[] pair = line.split(";");
+                definitsioonid_küsimused.add(pair[0]);
+            }
+        }
+        return definitsioonid_küsimused;
+    }
 
 
 
