@@ -1,0 +1,12 @@
+"Maatriks, mille ridade ja veergude arv on võrdne, m=n";
+"Mis on determinandi väärtus kahe võrdse või võrdelise rea korral?";
+"Maatriks mille peadiagonaali elemendid on kõik ühed ja kõrvaldiagonaali elemendid 0-d nimetatakse?";
+"Ruutmaatriks, mille determinant võrdub 0-ga nimetatakse?";
+"Maatriksil eksisteerib pöördmaatriks parajasti siis, kui maatriks on ?";
+"nullmaatriksi astak on?";
+"Süsteem, millel lahend puudub nimetatakse";
+"Paarisfunktsiooni graafik on sümmetriline mis telje suhtes?";
+"limx->0 sinx/x=";
+"limx->inf(1+1/x)**x=";
+"Konstandi tuletis on alati";
+"(u/v)'=";
