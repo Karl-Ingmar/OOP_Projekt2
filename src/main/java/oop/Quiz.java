@@ -34,10 +34,11 @@ public class Quiz extends Application {
             "Paarisfunktsiooni graafik on sümmetriline mis telje suhtes?", "limx->0 sinx/x=",
             "limx->inf(1+1/x)**x=", "Konstandi tuletis on alati", "(u/v)'=");
             */
-    List<String>  definitsioonid_vastused = Arrays.asList("ruutmaatriks","0","ühikmaatriksiks", "singulaarseks", "regulaarne",
-            "0", "vastuoluliseks", "y", "1", "e", "0", "(u'v-uv')/v**2");
+    /*List<String>  definitsioonid_vastused = Arrays.asList("ruutmaatriks","0","ühikmaatriksiks", "singulaarseks", "regulaarne",
+            "0", "vastuoluliseks", "y", "1", "e", "0", "(u'v-uv')/v**2");*/
 
     List<String> definitsioonid_küsimused = getDefinitsioonid_küsimused();
+    List<String> definitsioonid_vastused = getDefinitsioonid_vastused();
 
 
 
@@ -271,6 +272,17 @@ public class Quiz extends Application {
             }
         }
         return definitsioonid_küsimused;
+    }
+    public  static ArrayList<String> getDefinitsioonid_vastused() throws IOException {
+        ArrayList<String> definitsioonid_vastused = new ArrayList<>();
+        try(BufferedReader in = new BufferedReader(new FileReader("C:\\Users\\karli\\IdeaProjects\\OOP\\Projekt1\\src\\must-ruut-develop\\src\\vastused.txt"))){
+            String line;
+            while((line = in.readLine())!=null){
+                String[] pair = line.split(";");
+                definitsioonid_vastused.add(pair[0]);
+            }
+        }
+        return definitsioonid_vastused;
     }
 
 
