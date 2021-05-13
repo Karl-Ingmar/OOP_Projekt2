@@ -1,0 +1,12 @@
+ruutmaatriks;
+0;
+ühikmaatriksiks;
+singulaarseks;
+regulaarne;
+0;
+vastuoluliseks;
+y; 
+1;
+e;
+0;
+(u'v-uv')/v**2;

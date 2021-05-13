@@ -1,0 +1,12 @@
+sisestus; õige vastus
+
+vastuoluliseks; vastuoluliseks
+p; ühikmaatriksiks
+0; 0
+0; regulaarne
+k; ruutmaatriks
+k; singulaarseks
+k; e
+k; 1
+k; 0
+k; 0
