@@ -1,7 +1,6 @@
 package oop;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,32 +12,18 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.scene.text.Text;
-import javafx.stage.WindowEvent;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+
+import java.io.*;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 
 public class Quiz extends Application {
-    /*List<String> definitsioonid_küsimused = Arrays.asList("Maatriks, mille ridade ja veergude arv on võrdne, m=n", "Mis on determinandi väärtus kahe võrdse või võrdelise rea korral?",
-            "Maatriks mille peadiagonaali elemendid on kõik ühed ja kõrvaldiagonaali elemendid 0-d nimetatakse?","Ruutmaatriks, mille determinant võrdub 0-ga nimetatakse?",
-            "Maatriksil eksisteerib pöördmaatriks parajasti siis, kui maatriks on ?", "nullmaatriksi astak on?", "Süsteem, millel lahend puudub nimetatakse",
-            "Paarisfunktsiooni graafik on sümmetriline mis telje suhtes?", "limx->0 sinx/x=",
-            "limx->inf(1+1/x)**x=", "Konstandi tuletis on alati", "(u/v)'=");
-            */
-    List<String>  definitsioonid_vastused = Arrays.asList("ruutmaatriks","0","ühikmaatriksiks", "singulaarseks", "regulaarne",
-            "0", "vastuoluliseks", "y", "1", "e", "0", "(u'v-uv')/v**2");
-
-    List<String> definitsioonid_küsimused = getDefinitsioonid_küsimused();
-
+    String küsimustefail = "küsimused.txt";
+    String vastustefail = "vastused.txt";
+    List<String> definitsioonid_küsimused = getDefinitsioonid(küsimustefail);
+    List<String> definitsioonid_vastused = getDefinitsioonid(vastustefail);
 
 
 
@@ -72,6 +57,8 @@ public class Quiz extends Application {
 
     Stage pealava = new Stage();
 
+    Writer writer;
+
 
 
 
@@ -81,12 +68,14 @@ public class Quiz extends Application {
     }
 
     @Override
-    public void start(Stage pealava) {
+    public void start(Stage pealava) throws IOException {
 
         avaleht();
 
     }
-    public void avaleht(){
+    public void avaleht() throws IOException {
+        writer = new BufferedWriter(new OutputStreamWriter
+                (new FileOutputStream("tulemus.txt"), "UTF-8"));
         Label alguseInfo = new Label();
         alguseInfo.setWrapText(true);
         Button alusta = new Button("Alusta");
@@ -111,7 +100,13 @@ public class Quiz extends Application {
         grid0.setAlignment(Pos.CENTER);
         grid0.add(v, 0, 0);
         Scene stseen0 = new Scene(grid0, 350, 250);
-        alusta.setOnMouseClicked(event -> väärtusta());
+        alusta.setOnMouseClicked(event -> {
+            try {
+                väärtusta();
+            } catch (IOException e) {
+                e.printStackTrace(); //
+            }
+        });
         pealava.setScene(stseen0);
         pealava.show();
 
@@ -119,7 +114,7 @@ public class Quiz extends Application {
 
 
     }
-    public void väärtusta() {
+    public void väärtusta() throws IOException {
 
 
         küsimused.addAll(definitsioonid_küsimused);
@@ -160,13 +155,14 @@ public class Quiz extends Application {
         alusta();
         return;
     }
-    public void alusta(){
+    public void alusta() throws IOException {
         int mitmesküsimus = 1;
+        writer.write("sisestus; õige vastus\n\n");
         küsi(mitmesküsimus);
     }
-    public void küsi(int i) {
-        if(i-1==3){
-           // pealava.close();
+    public void küsi(int i) throws IOException {
+        if(i-1==10){
+
             try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {
@@ -187,17 +183,18 @@ public class Quiz extends Application {
                 vastuseVäli.setOnKeyPressed(new EventHandler<KeyEvent>() {//kasutaja sisestab vastuse
                     public void handle(KeyEvent keyEvent) {
                             if (keyEvent.getCode() == KeyCode.ENTER) {
-                                String sisestus = vastuseVäli.getText();
+                                String sisestus = vastuseVäli.getText().toLowerCase(Locale.ROOT);
                                 try {
                                     tagasiside.setText(samaväärsused.kontrolliVastus(sisestus, vastus));
                                     skoor.setText("Skoor: " + samaväärsused.getSkoor());
                                     mitmes.setText("Küsimus: " + (i + 1));
                                     vastuseVäli.setText("");
                                     viga.setText("");
+                                    writer.write(sisestus+"; "+vastus+"\n");
                                     küsi(i + 1);
 
 
-                                } catch (NullSisestusErind e) {
+                                } catch (NullSisestusErind | IOException e) {
                                     viga.setText("Sisestatud vigane info! " + e.getMessage());
                                     System.out.println("Sisestatud vigane info! " + e.getMessage());
                                     sisestus = vastuseVäli.getText();
@@ -213,14 +210,20 @@ public class Quiz extends Application {
 
 
     }
-    public void kokkuvõte(int mitmes){
+    public void kokkuvõte(int mitmes) throws IOException {
         kokkuvõte = new Label("Test läbi. "); //ajutiselt kuniks logifail pole veel valmis
         //kokkuvõte = new Label("Test läbi. Tulemus on salvestatud faili tulemus.txt");
         välju = new Button("Välju");
         teeUuesti = new Button("Tee Uuesti");
-
+        writer.close();
         välju.setOnMouseClicked(event -> pealava.close());
-        teeUuesti.setOnMouseClicked(event -> uusMäng());
+        teeUuesti.setOnMouseClicked(event -> {
+            try {
+                uusMäng();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         nupud = new HBox();
         nupud.setAlignment(Pos.CENTER);
@@ -238,7 +241,7 @@ public class Quiz extends Application {
         pealava.show();
 
     }
-    public void uusMäng(){
+    public void uusMäng() throws IOException {
         pealava.close();
         küsimused.clear();
         vastused.clear();
@@ -261,16 +264,16 @@ public class Quiz extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    public  static ArrayList<String> getDefinitsioonid_küsimused() throws IOException {
-        ArrayList<String> definitsioonid_küsimused = new ArrayList<>();
-        try(BufferedReader in = new BufferedReader(new FileReader("C:\\Users\\karli\\IdeaProjects\\OOP\\Projekt1\\src\\must-ruut-develop\\src\\küsimused.txt"))){
+    public  static ArrayList<String> getDefinitsioonid(String failinimi) throws IOException {
+        ArrayList<String> definitsioonid = new ArrayList<>();
+        try(BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(failinimi),"UTF-8"))){
             String line;
             while((line = in.readLine())!=null){
                 String[] pair = line.split(";");
-                definitsioonid_küsimused.add(pair[0]);
+                definitsioonid.add(pair[0]);
             }
         }
-        return definitsioonid_küsimused;
+        return definitsioonid;
     }
 
 
