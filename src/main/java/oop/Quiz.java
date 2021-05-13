@@ -62,7 +62,7 @@ public class Quiz extends Application {
 
 
 
-    Samaväärsused samaväärsused =  new DEF(küsimused, vastused, 0);
+    Samaväärsused samaväärsused =  new Samaväärsused(küsimused, vastused, 0);
 
     public Quiz() throws IOException {
     }
@@ -255,7 +255,7 @@ public class Quiz extends Application {
         skoor = new Label();
         mitmes = new Label();
         pealava = new Stage();
-        samaväärsused =  new DEF(küsimused, vastused, 0);
+        samaväärsused =  new Samaväärsused(küsimused, vastused, 0);
 
         väärtusta();
 

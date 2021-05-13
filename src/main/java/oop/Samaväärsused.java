@@ -3,7 +3,7 @@ package oop;
 import java.util.List;
 import java.util.Scanner;
 
-public abstract class Samaväärsused {
+public  class Samaväärsused {
     List<String> küsimused;
     List<String> vastused;
     //Küsimusele vastav vastus on sama indeksiga, mis küsimus
